@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular map.md API example</title>
+  <meta charset="UTF-8">
+  <link href="../dist/vendor.css" rel="stylesheet"/>
+</head>
+<body ng-app="angular-map-mad-api-example">
+<h1>Demo form</h1>
+<!--<div cg-busy="{promise:courier_request_promise.$promise, message:'Сохранение'}"></div>-->
+
+<form  class="form-horizontal col-xs-12" role="form" novalidate  ng-controller="AngularMapMdDemoController">
+  <h2>MAP.MD API KEY: {{savedApiKey || 'map.md api key not set!'}}</h2>
+  <fieldset>
+    <div class="form-group">
+      <label class="control-label col-xs-2">API KEY</label>
+      <div class="col-xs-7">
+        <input class="form-control" type="text" ng-model="mapMdApiKey"/>
+      </div>
+      <div class="col-xs-12">
+        <button class="btn btn-primary" ng-click="saveApiKey()">Save API key</button>
+      </div>
+    </div>
+  </fieldset>
+  <hr>
+  <fieldset>
+    <div class="form-group">
+      <label class="control-label col-xs-2">Forward geocode</label>
+      <div class="col-xs-7">
+        <input class="form-control" type="text" ng-model="forwardGeocodeString"/>
+      </div>
+      <div class="col-xs-12">
+        <button class="btn btn-success" ng-click="doForwardGeocode()">GEOCODE!</button>
+        <button class="btn btn-default" ng-click="clearForwardGeocode()">Clear</button>
+      </div>
+      <div class="col-xs-12" ng-if="forwardGeocodeResult">
+        <div class="well">
+          {{forwardGeocodeResult}}
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <div class="form-group">
+      <label class="control-label col-xs-2">Suggestions</label>
+      <div class="col-xs-5">
+        <input class="form-control" type="text" ng-model="reverseGeocodeLat"/>
+      </div>
+      <div class="col-xs-5">
+        <input class="form-control" type="text" ng-model="reverseGeocodeLong"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-xs-12">
+        <button class="btn btn-success" ng-click="doReverseGeocode()">GEOCODE!</button>
+        <button class="btn btn-default" ng-click="clearReverseGeocode()">Clear</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12" ng-if="ReverseGeocodeResult">
+        <div class="well">
+          {{ReverseGeocodeResult}}
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+
+  <fieldset>
+    <div class="form-group">
+      <label class="control-label col-xs-2">Reverse geocode (lat/long)</label>
+      <div class="col-xs-7">
+        <input class="form-control" type="text" ng-model="suggestionsString"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12" ng-if="AutocompleteSuggestions">
+        <div class="well">
+          <h4>Suggestions</h4>
+          <ol ng-repeat="suggestion in AutocompleteSuggestions">
+            <li>{{suggestion.displayName}}</li>
+          </ol>
+          <hr>
+          {{AutocompleteSuggestions}}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12">
+        <button class="btn btn-default" ng-click="clearSuggestions()">Clear</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+
+
+<script src="../dist/vendor.js"></script>
+<script src="example.js"></script>
+</body>
+</html>
