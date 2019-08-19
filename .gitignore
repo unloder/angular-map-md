@@ -1,0 +1,11 @@
+logs/*
+!.gitkeep
+node_modules/
+app/lib/
+tmp
+.DS_Store
+npm-debug.log
+.idea/
+bower_components/
+dist/
+21

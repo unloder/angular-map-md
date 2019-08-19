@@ -1,0 +1,25 @@
+{
+  "name": "angular-map-md",
+  "main": "angular-map-md.js",
+  "version": "1.0.0",
+  "ignore": [
+    "source",
+    "dist",
+    "bower_components",
+    ".gitignore",
+    "package.json"
+  ],
+  "homepage": "https://github.com/unloder/angular-map-md",
+  "authors": [
+    "Unloder"
+  ],
+  "dependencies": {
+    "jquery": "=2.2.3",
+    "lodash": "4.13.1",
+    "angular": "=1.5.7",
+    "bootstrap": "=3.3.6",
+    "angular-bootstrap": "=2.1.3",
+    "angular-slug": "=0.0.4"
+  },
+  "description": "Map.md api geocoding backend for straus md. Supports forwad geocoding, reverse geocoding and simulates tipeahead suggestions (autocomplete)."
+}
