@@ -3,7 +3,6 @@
   angular.module('angular-map-md').provider('geoMapSettings', function (mapMdApiSettings) {
 
     var options = {
-      deliveryAreaCoordinates: mapMdApiSettings.deliveryAreaCoordinates,
       chisinauBounds: [
         [28.75362396240234, 47.07152483385375],
         [28.91395568847656, 46.96080755772455]
@@ -16,10 +15,6 @@
           'kishinev', 'kishineu'],
       locationPrefixRus: "Кишинев Молдова",
       defaultCenterCoordinates: [28.8334021, 47.0210986],
-    };
-    this.setDeliveryAreaCoordinates=function(data){
-        options.deliveryAreaCoordinates=data;
-        return this;
     };
     this.setChisinauBounds=function(data){
         options.chisinauBoundsrder = data;

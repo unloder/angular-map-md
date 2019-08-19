@@ -3,7 +3,7 @@
   "main": "angular-map-md.module.js",
   "author": "",
   "license": "ISC",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "devDependencies": {},
   "dependencies": {
     "bower": "^1.6.5",

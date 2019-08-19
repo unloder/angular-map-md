@@ -13,7 +13,10 @@
     let NO_RESULT_STRING = "no results";
 
     function isInDeliveryArea (pointCoords){
-      return GeoCalc.pointInPolygon(pointCoords, geoMapSettings.deliveryAreaCoordinates);
+      if (mapMdApiSettings.deliveryAreaCoordinates){
+        return GeoCalc.pointInPolygon(pointCoords, mapMdApiSettings.deliveryAreaCoordinates);
+      }
+      return false
     }
 
     function getBuildingNumber(suggestResult) {
@@ -231,8 +234,8 @@
             'Authorization': 'Basic ' + btoa((MAP_MD_KEY || '') + ":")
         },
         data: {
-          lat: LatLong[1],
-          lon: LatLong[0],
+          lat: LatLong[0],
+          lon: LatLong[1],
         },
         success: function(result){
           let selected = result.building;
