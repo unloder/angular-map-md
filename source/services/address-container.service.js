@@ -254,7 +254,6 @@
         this.address.number = null;
         this.address.addressString = null;
         this.clearPositionData();
-        this.clearBuildingData();
       };
 
       return this;
