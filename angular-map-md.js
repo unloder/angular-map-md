@@ -38,6 +38,11 @@
       geocoding_datetime: null,
       approximate_address: null,
       inside_delivery_area: null,
+      apartment: '',
+      entrance: '',
+      floor: '',
+      entrance_code: '',
+      is_private_building: null,
       comment: '',
     };
     var addressIsExact = function (address) {
@@ -255,11 +260,20 @@
         this.address.addressString = null;
       };
 
+      this.clearBuildingData = function(){
+        this.address.apartment = null;
+        this.address.entrance = null;
+        this.address.floor = null;
+        this.address.entrance_code = null;
+        this.address.is_private_building = null;
+      };
+
       this.clearAddressFull = function () {
         this.address.street = null;
         this.address.number = null;
         this.address.addressString = null;
         this.clearPositionData();
+        this.clearBuildingData();
       };
 
       return this;
@@ -730,6 +744,27 @@
       similarity: similarity
     };
   }).service('addressNumberCompareService', function (stringCompare) {
+    function splitNumberLetter(suggestResult) {
+      var r = /([\d\/]+)([\D]+)?$/;
+      let found = r.exec(suggestResult);
+      if (found[0]){
+        return {
+          "number": found[1],
+          "letter": found[2],
+        };
+      }
+      return null;
+    }
+
+    function _getNumberLetters(buildingNumber) {
+      var r = /[\D]?$/;
+      let found = r.exec(buildingNumber);
+      if (found){
+        return found[0];
+      }
+      return null;
+    }
+
     function _getDelta(numStr1, numStr2){
       var r = /^[\d]+/;
       let delta = Infinity;
@@ -750,6 +785,33 @@
       return 0
     }
 
+    function _getStringLikeness(string1, string2){
+      let similarity = _getSimilarity(string1, string2);
+      let closeness = _getDelta(string1, string2);
+      let matchQuality = (similarity * 0.5) + (0.5 / (1 + closeness));
+      return matchQuality;
+    }
+
+    function _getMatchQuality(addressNumber, item){
+      // if address number has letters in it it should be matched normally 80/7a
+      // if it does not have letters (80/7) in it should be matched to all possible buildings
+      // as if they dont have letters also so that 80/7A would be closer matched to 80/7 then 80/8
+      let splitBuildNumber = splitNumberLetter(addressNumber);
+      let matchQuality = 0;
+      if (splitBuildNumber && !splitBuildNumber['letter']){
+        // request does not have a letter so we compare only numbers
+        let splitItem = splitNumberLetter(item);
+        if (splitItem && splitItem['letter']){
+          matchQuality = _getStringLikeness(addressNumber, splitItem['number']);
+        }else{
+          matchQuality = _getStringLikeness(addressNumber, item);
+        }
+      }else{
+        matchQuality = _getStringLikeness(addressNumber, item);
+      }
+      return matchQuality;
+    }
+
     function findClosestMatch(numberList, addressNumber, minQuality){
       minQuality = minQuality || 0.25;
       let topMatch = {
@@ -758,9 +820,7 @@
         match: null,
       };
       _.each(numberList, function(item){
-        let similarity = _getSimilarity(addressNumber, item);
-        let closeness = _getDelta(addressNumber, item);
-        let matchQuality = (similarity * 0.5) + (0.5 / (1 + closeness));
+        let matchQuality = _getMatchQuality(addressNumber, item);
         if (matchQuality && matchQuality >= topMatch.quality){
           topMatch.match = item;
           topMatch.quality = matchQuality;
@@ -777,9 +837,7 @@
       maxNumbers = maxNumbers || 4;
       let matches = [];
       _.each(numberList, function(item){
-        let similarity = _getSimilarity(addressNumber, item);
-        let closeness = _getDelta(addressNumber, item);
-        let matchQuality = (similarity * 0.5) + (0.5 / (1 + closeness));
+        let matchQuality = _getMatchQuality(addressNumber, item);
         if (matchQuality && matchQuality >= minQuality){
           matches.push({
             match: item,
@@ -795,6 +853,7 @@
 
     return {
       findClosestMatch: findClosestMatch,
+      findTopMatches: findTopMatches,
       findTopMatches: findTopMatches,
     };
   })

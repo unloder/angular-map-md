@@ -19,6 +19,11 @@
       geocoding_datetime: null,
       approximate_address: null,
       inside_delivery_area: null,
+      apartment: '',
+      entrance: '',
+      floor: '',
+      entrance_code: '',
+      is_private_building: null,
       comment: '',
     };
     var addressIsExact = function (address) {
@@ -236,11 +241,20 @@
         this.address.addressString = null;
       };
 
+      this.clearBuildingData = function(){
+        this.address.apartment = null;
+        this.address.entrance = null;
+        this.address.floor = null;
+        this.address.entrance_code = null;
+        this.address.is_private_building = null;
+      };
+
       this.clearAddressFull = function () {
         this.address.street = null;
         this.address.number = null;
         this.address.addressString = null;
         this.clearPositionData();
+        this.clearBuildingData();
       };
 
       return this;

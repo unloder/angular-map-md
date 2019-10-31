@@ -25,26 +25,30 @@
   <hr>
   <fieldset>
     <div class="form-group">
-      <label class="control-label col-xs-2">Forward geocode</label>
-      <div class="col-xs-7">
-        <input class="form-control" type="text" ng-model="forwardGeocodeString"/>
-      </div>
-      <div class="col-xs-12">
-        <button class="btn btn-success" ng-click="doForwardGeocode()">GEOCODE!</button>
-        <button class="btn btn-default" ng-click="clearForwardGeocode()">Clear</button>
-      </div>
-      <div class="col-xs-12" ng-if="forwardGeocodeResult">
-        <div class="well">
-          {{forwardGeocodeResult}}
+      <div class="row">
+        <label class="control-label col-xs-2">Forward geocode</label>
+        <div class="col-xs-7">
+          <input class="form-control" type="text" ng-model="forwardGeocodeString"/>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-success" ng-click="doForwardGeocode()">GEOCODE!</button>
+          <button class="btn btn-default" ng-click="clearForwardGeocode()">Clear</button>
+        </div>
+      </div>
+        <div class="col-xs-12" ng-if="forwardGeocodeResult">
+          <div class="well">
+            {{forwardGeocodeResult}}
+          </div>
+        </div>
     </div>
   </fieldset>
 
 
   <fieldset>
     <div class="form-group">
-      <label class="control-label col-xs-2">Suggestions</label>
+      <label class="control-label col-xs-2">Reverse geocode (lat/long)</label>
       <div class="col-xs-5">
         <input class="form-control" type="text" ng-model="reverseGeocodeLat"/>
       </div>
@@ -71,7 +75,7 @@
 
   <fieldset>
     <div class="form-group">
-      <label class="control-label col-xs-2">Reverse geocode (lat/long)</label>
+      <label class="control-label col-xs-2">Suggestions</label>
       <div class="col-xs-7">
         <input class="form-control" type="text" ng-model="suggestionsString"/>
       </div>
